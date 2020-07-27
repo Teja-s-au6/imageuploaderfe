@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchfiles = createAsyncThunk('users/fetchfiles', async (files, { getState }) => {
-    console.log(files)
-    console.log(getState().features.users.users.createUser.accessToken)
-    const accessToken = getState().features.users.users.createUser.accessToken
+export const fetchfiles = createAsyncThunk('users/fetchCreate', async (files, { getState }) => {
+    //console.log(files)
+    console.log(getState().features.users.users.accessToken)
+    const accessToken = getState().features.users.users.accessToken
     try {
         const headers = {
-            'Content-Type': 'application/json,text/html; charset=UTF-8,multipart/form-data; boundary=something'
+            'Content-Type': 'application/json;text/html; charset=UTF-8;multipart/form-data; boundary=something'
         };
         const response = await axios.post(`https://imgupld.herokuapp.com/user/create/${accessToken}`, files
         ,{headers : headers})

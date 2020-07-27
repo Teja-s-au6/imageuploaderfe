@@ -7,11 +7,10 @@ export const fetchUsers = createAsyncThunk('users/fetchusers', async (users) => 
         const headers = {
             'Content-Type': 'application/json'
         };
-        const reponse = await axios.post(`https://imgupld.herokuapp.com/user/register`, {
-            users
-        },{headers})
-        console.log(reponse.data)
-        return Response.data
+        const response = await axios.post(`https://imgupld.herokuapp.com/user/register`, users
+        ,{headers : headers})
+        console.log(response)
+        return response.data
     } catch (err) {
         console.error(err)
     }
@@ -19,7 +18,7 @@ export const fetchUsers = createAsyncThunk('users/fetchusers', async (users) => 
 
 const slice = createSlice({
     name: "users",
-    initialState: {users : null, isUsersFetching : false},
+    initialState: {users : JSON.parse(localStorage.getItem('user') || null), isUsersFetching : false},
     reducers: {
 
     },
@@ -29,7 +28,10 @@ const slice = createSlice({
 			state.isUsersFetching = true;
 		},
 		[fetchUsers.fulfilled]: (state, action) => {
-			state.videos = action.payload;
+            //console.log(action.payload.createUser.accessToken)
+            const userJSON = JSON.stringify(action.payload);
+            localStorage.setItem('user', userJSON)
+			state.users = action.payload;
 			state.isUsersFetching = false;
 		},
 		[fetchUsers.rejected]: (state, action) => {

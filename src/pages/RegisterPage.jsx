@@ -15,18 +15,26 @@ class RegisterPage extends Component {
 	};
 
 	handleSubmit = (event) => {
-		event.preventDefault();
-		const {  name, email, password } = this.state;
-		const users = {
-            name, email, password
-		};
-		console.log(users)
-		this.props.fetchUsers(users);
+        event.preventDefault();
+        const {  name, email, password } = this.state;
+        const users = {
+            name : name, 
+            email : email, 
+            password: password
+		}
+		const user = JSON.stringify(users)
+		this.props.fetchUsers(user);
+		this.setState({
+			name: "",
+			email: "",
+			password: ""
+		})
 	};
     render() {
         return (
             <div>
-                        <Form onSubmit={this.handleSubmit} >
+			<h1>RegisterPage</h1>
+            <Form onSubmit={this.handleSubmit} >
 					<Form.Control
 						type="text"
 						name="name"
